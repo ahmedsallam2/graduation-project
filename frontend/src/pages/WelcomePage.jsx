@@ -1,6 +1,6 @@
 import React from "react";
 // React Router
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 //Auth0
@@ -19,6 +19,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 export default function WelcomePage() {
+  const navigate = useNavigate();
   const { isLoading } = useAuth0();
 
   if (isLoading) {
@@ -113,9 +114,9 @@ export default function WelcomePage() {
               >
                 {/* <LoginBtn style={styleLoginBtn} /> */}
                 {/* btn Sing up */}
-                <SignupBtn />
+                {/* <SignupBtn /> */}
 
-                {/* <Button
+                <Button
                   onClick={() => navigate("/signup")}
                   variant="contained"
                   size="large"
@@ -137,11 +138,11 @@ export default function WelcomePage() {
                   }}
                 >
                   Get Started
-                </Button> */}
+                </Button>
 
                 {/* btn Login */}
-                <LoginBtn />
-                {/*
+                {/* <LoginBtn /> */}
+
                 <Button
                   onClick={() => navigate("/login")}
                   variant="outlined"
@@ -167,7 +168,7 @@ export default function WelcomePage() {
                   }}
                 >
                   Login
-                </Button> */}
+                </Button>
               </Box>
             </Box>
           </Grid>
