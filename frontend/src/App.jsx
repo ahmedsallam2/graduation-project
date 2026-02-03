@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages & Components
 import WelcomePage from "./pages/WelcomePage.jsx";
-import SignupPage from "./pages/FormsPage/SignupPage";
-import LoginPage from "./pages/FormsPage/LoginPage";
+import SignupPage from "./pages//SignupPage";
+import LoginPage from "./pages/LoginPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx"
 import ChatPage from "./pages/ChatPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import FileUploader from '../Forms/FileUploader';
 import { useDatabase } from '../../contexts/useDatabase';
@@ -17,19 +18,34 @@ import DialogTitle from '@mui/material/DialogTitle';
 export default function AddFileDialog({ open, onClose }) {
 
     const { addDatabase } = useDatabase();
+    const [uploadState, setUploadState] = useState("idle");
 
-    const form = useForm();
-    const { register, handleSubmit, reset, formState: { errors }, setValue } = form
+
+    const form = useForm({
+        defaultValues: {
+            nameFile: "",
+            dataFile: null
+        }
+    });
+    const { register, handleSubmit, reset, formState: { errors }, setValue, trigger } = form
+
+    const handleCloseDialog = () => {
+        reset();                 // reset form fields
+        setUploadState("idle");  // reset upload state
+        onClose();               // close dialog
+    };
+
 
     const sendFile = (event) => {
         console.log("File Data:", event)
         addDatabase({
             id: Date.now(),
             dbName: event.nameFile,
+            s3Key: event.dataFile.s3Key,
+            uploadId: event.dataFile.uploadId,
             // other properties can be added here
         });
-        reset();
-        onClose();
+        handleCloseDialog();
     };
     const onError = (errors) => {
         console.log("Validation Errors:", errors)
@@ -38,7 +54,7 @@ export default function AddFileDialog({ open, onClose }) {
         <>
             <Dialog
                 open={open}
-                onClose={onClose}
+                onClose={handleCloseDialog}
                 maxWidth="sm"
                 fullWidth
                 PaperProps={{
@@ -79,15 +95,28 @@ export default function AddFileDialog({ open, onClose }) {
                         />
 
                         <FileUploader
-                            register={register}
+                            uploadState={uploadState}
+                            setUploadState={setUploadState}
                             setValue={setValue}
-                            errors={errors}
+                            trigger={trigger}
+                            errors={errors.dataFile}
                         />
+                        <input
+                            type="hidden"
+                            {...register("dataFile", { required: "File to be uploaded is Required" })}
+                        />
+                        {errors.dataFile && (
+                            <DialogContentText sx={{ color: 'error.main', fontSize: '0.75rem', mt: -2 }}>
+                                {errors.dataFile.message}
+                            </DialogContentText>
+                        )}
                     </DialogContent>
 
                     <DialogActions sx={{ px: 3, pb: 2 }}>
                         <Button
-                            onClick={onClose}
+                            onClick={() => {
+                                handleCloseDialog();
+                            }}
                             color="inherit"
                         >
                             Cancel
@@ -95,6 +124,7 @@ export default function AddFileDialog({ open, onClose }) {
 
                         <Button
                             type="submit"
+                            disabled={uploadState !== "success"}
                             variant="contained"
                             sx={{
                                 px: 4,

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { uploadToS3 } from "../../services/uploadFileService"
+
+//MUI components
 import {
     Button,
     LinearProgress,
@@ -6,29 +9,28 @@ import {
     Box
 } from "@mui/material";
 
-export default function FileUploader({ setValue, errors }) {
-    const [uploadState, setUploadState] = useState("idle");
+export default function FileUploader({ setValue, trigger, uploadState, setUploadState, userId = 125 }) {
     const [progress, setProgress] = useState(0);
 
     // will remove later
-    const simulateUpload = (file) => {
-        setUploadState("uploading");
-        setProgress(0);
+    // const simulateUpload = (file) => {
+    //     setUploadState("uploading");
+    //     setProgress(0);
 
-        const interval = setInterval(() => {
-            setProgress((p) => {
-                if (p >= 100) {
-                    clearInterval(interval);
-                    setUploadState("success");
-                    return 100;
-                }
-                return p + 5;
-            });
-            console.log(file.name);
-        }, 200);
-    };
+    //     const interval = setInterval(() => {
+    //         setProgress((p) => {
+    //             if (p >= 100) {
+    //                 clearInterval(interval);
+    //                 setUploadState("success");
+    //                 return 100;
+    //             }
+    //             return p + 5;
+    //         });
+    //         console.log(file.name);
+    //     }, 200);
+    // };
 
-    const handleFileUpload = (event) => {
+    const handleFileUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
 
@@ -36,14 +38,27 @@ export default function FileUploader({ setValue, errors }) {
         setUploadState("idle");
         setProgress(0);
 
-        setValue("dataFile", file);
         try {
-            simulateUpload(file);
+            setUploadState("uploading");
+            const result = await uploadToS3(file, userId)
+            setValue("dataFile", {
+                file,
+                s3Key: result.key,
+                uploadId: result.uploadId
+            }, { shouldValidate: true });
+            const isValid = await trigger("dataFile");
+            if (!isValid) {
+                setUploadState("error");
+                return;
+            }
+            setUploadState("success");
         }
         catch (err) {
-            console.error("Upload error:", err);
+            console.log("Upload Error:", err);
             setUploadState("error");
+            return;
         }
+        setUploadState("idle")
 
     }
 
@@ -71,8 +86,6 @@ export default function FileUploader({ setValue, errors }) {
                     type="file"
                     hidden
                     onChange={handleFileUpload}
-                    error={!!errors.dataFile}
-                    helperText={errors.dataFile?.message}
                 />
             </Button>
 

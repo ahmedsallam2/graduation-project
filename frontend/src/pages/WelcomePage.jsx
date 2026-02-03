@@ -1,6 +1,15 @@
 import React from "react";
 // React Router
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+
+
+//Auth0
+import { useAuth0 } from "@auth0/auth0-react";
+import LoginBtn from "../components/Auth/LoginBtn.jsx"
+import SignupBtn from "../components/Auth/SignupBtn"
+
+// Loading Skeleton
+import FullPageSkeleton from "../components/FullPageSkeleton.jsx"
 
 // Material UI
 import Box from "@mui/material/Box";
@@ -10,7 +19,15 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 export default function WelcomePage() {
-  const navigate = useNavigate();
+  const { isLoading } = useAuth0();
+
+  if (isLoading) {
+    return <FullPageSkeleton />;
+  }
+
+  // if (isAuthenticated) {
+  //   return <Navigate to="/chat" />;
+  // }
   return (
     <Box
       sx={{
@@ -94,7 +111,11 @@ export default function WelcomePage() {
                   mx: { xs: "auto", md: 0 },
                 }}
               >
-                <Button
+                {/* <LoginBtn style={styleLoginBtn} /> */}
+                {/* btn Sing up */}
+                <SignupBtn />
+
+                {/* <Button
                   onClick={() => navigate("/signup")}
                   variant="contained"
                   size="large"
@@ -116,8 +137,11 @@ export default function WelcomePage() {
                   }}
                 >
                   Get Started
-                </Button>
+                </Button> */}
 
+                {/* btn Login */}
+                <LoginBtn />
+                {/*
                 <Button
                   onClick={() => navigate("/login")}
                   variant="outlined"
@@ -143,7 +167,7 @@ export default function WelcomePage() {
                   }}
                 >
                   Login
-                </Button>
+                </Button> */}
               </Box>
             </Box>
           </Grid>
