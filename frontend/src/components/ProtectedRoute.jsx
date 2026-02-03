@@ -1,29 +1,13 @@
-// Auth0
-import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
-
-// MUI
-import FullPageSkeleton from "./FullPageSkeleton";
+import { useLocation, Navigate } from "react-router-dom";
+import { useAuth } from "../contexts/useAuth";
 
 export default function ProtectedRoute({ children }) {
-    const {
-        isAuthenticated,
-        isLoading,
-        loginWithRedirect,
-    } = useAuth0();
+    const { user } = useAuth();
+    const location = useLocation();
 
-    useEffect(() => {
-        if (!isLoading && !isAuthenticated) {
-            loginWithRedirect({
-                appState: {
-                    returnTo: window.location.pathname,
-                },
-            });
-        }
-    }, [isLoading, isAuthenticated, loginWithRedirect]);
-
-    if (isLoading || !isAuthenticated) {
-        return <FullPageSkeleton />;
+    if (!user) {
+        // Redirect to login and preserve the current location so user can be returned after login
+        return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
     return children;
