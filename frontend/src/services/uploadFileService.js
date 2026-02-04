@@ -1,46 +1,43 @@
 async function requestPresign(file, userId) {
-  console.log(import.meta.env.VITE_API_URL);
-  console.log(`${import.meta.env.VITE_API_URL}/uploads/presign`);
+  const api = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+  if (!api) throw new Error("VITE_API_URL missing");
 
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/uploads/presign`, {
+  const safeType = file.type || "application/octet-stream";
+
+  const res = await fetch(`${api}/uploads/presign`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       userId,
-      contentType: file.type,
+      contentType: safeType,
       originalName: file.name,
     }),
   });
 
   if (!res.ok) {
-    throw new Error("presign failed");
+    const txt = await res.text();
+    throw new Error(`presign failed: ${res.status} ${txt}`);
   }
 
   return res.json();
-  // {url,fileds;{key,policy,x-amz-signature},key,uploadId}
 }
 
 export async function uploadToS3(file, userId) {
   const { url, fields, key, uploadId } = await requestPresign(file, userId);
 
   const form = new FormData();
-  // S3 doesn't accept JSON, it must be multipart/form-data (FormData)
 
   Object.entries(fields).forEach(([k, v]) => {
-    form.append(k, v);
+    form.append(k, String(v));
   });
 
-  form.append("file", file); //file name
+  form.append("file", file);
 
-  const up = await fetch(url, {
-    method: "POST",
-    body: form,
-  });
+  const up = await fetch(url, { method: "POST", body: form });
 
   if (!up.ok) {
-    throw new Error("upload failed");
+    const txt = await up.text();
+    throw new Error(`upload failed: ${up.status} ${txt}`);
   }
 
   return { key, uploadId };
