@@ -2,6 +2,7 @@ import React from "react";
 // React Router
 import { Navigate, useNavigate } from "react-router-dom";
 
+// Components
 
 //Auth0
 import { useAuth0 } from "@auth0/auth0-react";
@@ -30,214 +31,213 @@ export default function WelcomePage() {
   //   return <Navigate to="/chat" />;
   // }
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        height: "100vh",
-        maxHeight: "100vh",
-        overflow: "hidden",
-        background: "linear-gradient(135deg, #094BB0 0%, #569CF9 100%)",
-        display: "flex",
-        alignItems: "center",
-
-      }}
-    >
-      <Container
-        maxWidth="lg"
+    <>
+      <Box
         sx={{
+          minHeight: "calc(100vh - 80px)", // Assuming header height is 64px
           height: "100%",
+          overflow: { xs: "auto", md: "hidden" },
+          background: "linear-gradient(135deg, #094BB0 0%, #569CF9 100%)",
           display: "flex",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
-        <Grid
-          container
-          alignItems="center"
-          spacing={20}
+        <Container
+          maxWidth="lg"
           sx={{
-            flexDirection: { xs: "column-reverse", md: "row" },
-            height: "100%",
-            py: 2,
+            minHeight: "100%",
+            display: "flex",
+            alignItems: "center"
           }}
         >
-          {/* النصوص */}
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                textAlign: { xs: "center", md: "left" },
-                color: "white",
-                px: { xs: 2, sm: 0 },
-              }}
-            >
-              <Typography
-                variant="h2"
-                component="h1"
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-                  mb: 2,
-                  background: "linear-gradient(45deg, #fff 30%, #f0f0f0 90%)",
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  color: "transparent",
-                  textShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                }}
-              >
-                PixelsDB
-              </Typography>
-
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
-                  mb: 3,
-                  lineHeight: 1.6,
-                  opacity: 0.9,
-                  maxWidth: "500px",
-                  mx: { xs: "auto", md: 0 },
-                }}
-              >
-                PixelsDB helps you chat with your database. Write natural language,
-                get SQL instantly, and explore your data with ease.
-              </Typography>
-
+          <Grid
+            container
+            alignItems="center"
+            spacing={{ xs: 6, md: 17 }}
+            sx={{
+              flexDirection: { xs: "column", md: "row" },
+              height: "100%",
+              py: { xs: 2, md: 0 },
+            }}
+          >
+            {/* النصوص */}
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
-                  display: "flex",
-                  gap: 2,
-                  justifyContent: { xs: "center", md: "flex-start" },
-                  flexDirection: { xs: "column", sm: "row" },
-                  alignItems: "center",
-                  maxWidth: { xs: "250px", sm: "none" },
-                  mx: { xs: "auto", md: 0 },
+                  textAlign: { xs: "center", md: "left" },
+                  color: "white",
+                  px: { xs: 2, sm: 0 },
                 }}
               >
-                {/* <LoginBtn style={styleLoginBtn} /> */}
-                {/* btn Sing up */}
-                {/* <SignupBtn /> */}
-
-                <Button
-                  onClick={() => navigate("/signup")}
-                  variant="contained"
-                  size="large"
+                <Typography
+                  variant="h2"
+                  component="h1"
                   sx={{
-                    px: 3,
-                    py: 1,
-                    backgroundColor: "primary.contrastText",
-                    color: "primary.main",
-                    fontSize: { xs: "0.9rem", sm: "1rem" },
                     fontWeight: "bold",
-                    borderRadius: 2,
-                    boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
-                    "&:hover": {
-                      transform: "translateY(-2px)",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.3)",
-                    },
-                    transition: "all 0.3s ease",
-                    minWidth: { xs: "180px", sm: "auto" },
+                    fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+                    mb: 2,
+                    background: "linear-gradient(45deg, #fff 30%, #f0f0f0 90%)",
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    color: "transparent",
+                    textShadow: "0 2px 4px rgba(0,0,0,0.1)",
                   }}
                 >
-                  Get Started
-                </Button>
+                  PixelsDB
+                </Typography>
 
-                {/* btn Login */}
-                {/* <LoginBtn /> */}
-
-                <Button
-                  onClick={() => navigate("/login")}
-                  variant="outlined"
-                  color="secondary"
-                  size="large"
+                <Typography
+                  variant="h6"
                   sx={{
-                    px: 3,
-                    py: 1,
-                    fontSize: { xs: "0.9rem", sm: "1rem" },
-                    fontWeight: "bold",
-                    borderRadius: 2,
-                    borderWidth: 2,
-                    borderColor: "white",
-                    color: "white",
-                    "&:hover": {
+                    fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
+                    mb: 3,
+                    lineHeight: 1.6,
+                    opacity: 0.9,
+                    maxWidth: "500px",
+                    mx: { xs: "auto", md: 0 },
+                  }}
+                >
+                  Upload your files, describe what you want in plain text, and let our system translate it into SQL queries executed directly on your data.
+                </Typography>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                    justifyContent: { xs: "center", md: "flex-start" },
+                    flexDirection: { xs: "column", sm: "row" },
+                    alignItems: "center",
+                    maxWidth: { xs: "250px", sm: "none" },
+                    mx: { xs: "auto", md: 0 },
+                  }}
+                >
+                  {/* <LoginBtn style={styleLoginBtn} /> */}
+                  {/* btn Sing up */}
+                  {/* <SignupBtn /> */}
+
+                  <Button
+                    onClick={() => navigate("/signup")}
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      px: 3,
+                      py: 1,
+                      backgroundColor: "primary.contrastText",
+                      color: "primary.main",
+                      fontSize: { xs: "0.9rem", sm: "1rem" },
+                      fontWeight: "bold",
+                      borderRadius: 2,
+                      boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+                      "&:hover": {
+                        transform: "translateY(-2px)",
+                        boxShadow: "0 6px 20px rgba(0,0,0,0.3)",
+                      },
+                      transition: "all 0.3s ease",
+                      minWidth: { xs: "180px", sm: "auto" },
+                    }}
+                  >
+                    Get Started
+                  </Button>
+
+                  {/* btn Login */}
+                  {/* <LoginBtn /> */}
+
+                  <Button
+                    onClick={() => navigate("/login")}
+                    variant="outlined"
+                    color="secondary"
+                    size="large"
+                    sx={{
+                      px: 3,
+                      py: 1,
+                      fontSize: { xs: "0.9rem", sm: "1rem" },
+                      fontWeight: "bold",
+                      borderRadius: 2,
                       borderWidth: 2,
                       borderColor: "white",
-                      backgroundColor: "rgba(255,255,255,0.1)",
-                      transform: "translateY(-2px)",
-                    },
-                    transition: "all 0.3s ease",
-                    minWidth: { xs: "180px", sm: "auto" },
-                  }}
-                >
-                  Login
-                </Button>
+                      color: "white",
+                      "&:hover": {
+                        borderWidth: 2,
+                        borderColor: "white",
+                        backgroundColor: "rgba(255,255,255,0.1)",
+                        transform: "translateY(-2px)",
+                      },
+                      transition: "all 0.3s ease",
+                      minWidth: { xs: "180px", sm: "auto" },
+                    }}
+                  >
+                    Login
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          </Grid>
+            </Grid>
 
-          {/* الصورة */}
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                position: "relative",
-                height: "100%",
-              }}
-            >
+            {/* الصورة */}
+            <Grid item xs={12} md={6}>
               <Box
-                component="img"
-                src="WelcomeImg.png"
-                alt="Database Visualization"
                 sx={{
-                  width: "100%",
-                  maxWidth: { xs: "250px", sm: "350px", md: "550px" },
-                  maxHeight: { xs: "250px", sm: "350px", md: "500px" },
-                  height: "auto",
-                  objectFit: "contain",
-                  borderRadius: 2,
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
-                  transform: { xs: "none", md: "perspective(1000px) rotateY(-5deg)" },
-                  transition: "all 0.5s ease",
-                  "&:hover": {
-                    transform: { xs: "scale(1.02)", md: "perspective(1000px) rotateY(0deg) scale(1.02)" },
-                  },
+                  display: { xs: "none", md: "block" },
+                  justifyContent: "center",
+                  alignItems: "center",
+                  position: "relative",
+                  height: "90%",
                 }}
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
-              />
+              >
+                <Box
+                  component="img"
+                  src="WelcomeImg.png"
+                  alt="Database Visualization"
+                  sx={{
+                    width: "100%",
+                    maxWidth: { xs: "250px", sm: "350px", md: "550px" },
+                    maxHeight: { xs: "220px", sm: "300px", md: "450px" },
+                    height: "auto",
+                    objectFit: "contain",
+                    borderRadius: 2,
+                    boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+                    transform: { xs: "none", md: "perspective(1000px) rotateY(-5deg)" },
+                    transition: "all 0.5s ease",
+                    "&:hover": {
+                      transform: { xs: "scale(1.02)", md: "perspective(1000px) rotateY(0deg) scale(1.02)" },
+                    },
+                  }}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
 
-              {/* تأثيرات زخرفية - مخفية على الموبايل لتوفير المساحة */}
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: -20,
-                  right: -20,
-                  width: 100,
-                  height: 100,
-                  background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)",
-                  borderRadius: "50%",
-                  zIndex: 0,
-                  display: { xs: "none", md: "block" },
-                }}
-              />
-              <Box
-                sx={{
-                  position: "absolute",
-                  bottom: -30,
-                  left: -30,
-                  width: 150,
-                  height: 150,
-                  background: "radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)",
-                  borderRadius: "50%",
-                  zIndex: 0,
-                  display: { xs: "none", md: "block" },
-                }}
-              />
-            </Box>
+                {/* تأثيرات زخرفية - مخفية على الموبايل لتوفير المساحة */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: -20,
+                    right: -20,
+                    width: 100,
+                    height: 100,
+                    background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)",
+                    borderRadius: "50%",
+                    zIndex: 0,
+                    display: { xs: "none", md: "block" },
+                  }}
+                />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: -30,
+                    left: -30,
+                    width: 150,
+                    height: 150,
+                    background: "radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)",
+                    borderRadius: "50%",
+                    zIndex: 0,
+                    display: { xs: "none", md: "block" },
+                  }}
+                />
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </>
   );
 }

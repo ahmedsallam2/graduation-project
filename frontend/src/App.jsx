@@ -1,4 +1,5 @@
 import "./App.css";
+import "./styles/layout.css"
 // import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -13,6 +14,10 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx"
 import ChatPage from "./pages/ChatPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import AddDatabasePage from "./pages/AddDatabasePage.jsx";
+import MainLayout from "./layout/MainLayout.jsx";
+import AboutUs from "./pages/AboutUs.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
+import HowItWorks from "./pages/HowItWorks.jsx";
 
 // Contexts
 import { AuthProvider } from "./contexts/AuthContext.jsx";
@@ -37,7 +42,13 @@ function App() {
           <DatabaseProvider>
             <CssBaseline />
             <Routes>
-              <Route path="/" element={<WelcomePage />} />
+              <Route path="/" element={
+                <MainLayout><WelcomePage /></MainLayout>} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/contact-us" element={
+                <MainLayout><ContactUs /></MainLayout>
+              } />
+              <Route path="/how-it-works" element={<MainLayout><HowItWorks /></MainLayout>} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/signup" element={<SignpuForm />} />
               <Route path="/chat" element={<ProtectedRoute ><ChatPage /> </ProtectedRoute >} />
