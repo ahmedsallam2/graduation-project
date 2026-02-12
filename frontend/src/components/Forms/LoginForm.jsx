@@ -25,7 +25,7 @@ export default function LoginForm() {
     // On form submit
     function onSubmit(data) {
         login(data)
-        console.log("Form Data:", data)
+        console.log("Form Data (login):", data)
         navigate("/chat")
     }
 
@@ -33,6 +33,25 @@ export default function LoginForm() {
     function onError(errors) {
         console.log("Validation Errors:", errors)
         alert("Please fix the errors in the form.")
+    }
+
+    const styleField = {
+        flex: 1,
+        "& .MuiOutlinedInput-root": {
+            borderRadius: 2,
+            fontSize: "0.95rem",
+            "& textarea": {
+                resize: "vertical",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "primary.main",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "primary.main",
+                borderWidth: "2px",
+            },
+        },
+
     }
 
     return (
@@ -45,6 +64,7 @@ export default function LoginForm() {
                 helperText={errors.email?.message}
                 fullWidth
                 margin="normal"
+                sx={styleField}
             />
 
             <TextField
@@ -56,9 +76,10 @@ export default function LoginForm() {
                 helperText={errors.password?.message}
                 fullWidth
                 margin="normal"
+                sx={styleField}
             />
 
-            <Button type="submit" fullWidth variant="contained">
+            <Button type="submit" fullWidth variant="contained" sx={{ fontSize: '1.2em' }}>
                 Login
             </Button>
         </form>

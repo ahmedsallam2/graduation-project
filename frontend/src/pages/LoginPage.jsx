@@ -1,290 +1,252 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-//Auth0
-import { useAuth0 } from "@auth0/auth0-react";
+
+import LoginForm from '../components/Forms/LoginForm'
+
 // MUI
-import { Button, Typography, Divider, Paper, Container, useTheme, useMediaQuery } from '@mui/material'
+import {
+    Typography, Divider, Paper, Container, useTheme, useMediaQuery, Avatar, Fade, Zoom, Grow
+} from '@mui/material'
 import Box from '@mui/material/Box'
-import EmailIcon from '@mui/icons-material/Email'
-import GoogleIcon from '@mui/icons-material/Google'
-import GitHubIcon from '@mui/icons-material/GitHub'
-import FacebookIcon from '@mui/icons-material/Facebook'
-import TwitterIcon from '@mui/icons-material/Twitter'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 
-import { SocialIcon } from 'react-social-icons'
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 
-export default function LoginPage() {
-    const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-
-    // الألوان الأساسية من الملف مع إضافة ألوان تكميلية
-    const colors = {
-        primaryDark: '#094BB0',
-        primary: '#0B4DB2',
-        primaryLight: '#569CF9',
-        secondary: '#FF6B6B',
-        secondaryLight: '#FF9E7D',
-        background: '#F8FAFF',
-        textPrimary: '#2D3748',
-        textSecondary: '#718096',
-        white: '#FFFFFF',
-        lightGray: '#E2E8F0'
-    }
-
-    const socialButtons = [
-        {
-            name: 'Google',
-            network: 'google-oauth2',
-            color: '#DB4437',
-            icon: <GoogleIcon />
-        },
-        {
-            name: 'GitHub',
-            network: 'github',
-            color: '#333333',
-            icon: <GitHubIcon />
-        },
-        {
-            name: 'Facebook',
-            network: 'facebook',
-            color: '#4267B2',
-            icon: <FacebookIcon />
-        },
-        {
-            name: 'Twitter',
-            network: 'twitter',
-            color: '#1DA1F2',
-            icon: <TwitterIcon />
-        }
-    ]
-
-    const { loginWithRedirect } = useAuth0()
+export default function SignupPage() {
+    const theme = useTheme();
+    const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
         <Box
             sx={{
-                background: `linear-gradient(135deg, ${colors.primaryDark} 0%, ${colors.primaryLight} 100%)`,
+                minHeight: '100vh',
                 display: 'flex',
-                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minHeight: '100vh',
-                py: 4
+                background: 'linear-gradient(145deg, #569CF9 0%, #094BB0 100%)',
+                position: 'relative',
+                overflow: 'hidden',
+                py: 4,
+                '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    width: '200%',
+                    height: '200%',
+                    background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%)',
+                    animation: 'rotate 30s linear infinite',
+                },
+                '@keyframes rotate': {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(360deg)' },
+                },
             }}
         >
-            <Container maxWidth="sm">
-                <Paper
-                    elevation={6}
+            {/* Floating decorative elements */}
+            {[...Array(6)].map((_, i) => (
+                <Box
+                    key={i}
                     sx={{
-                        padding: isMobile ? 3 : 4,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        gap: 3,
-                        backgroundColor: colors.white,
-                        borderRadius: 3,
-                        boxShadow: '0 10px 30px rgba(11, 77, 178, 0.15)',
-                        overflow: 'hidden',
-                        position: 'relative'
+                        position: 'absolute',
+                        width: [20, 30, 40][i % 3],
+                        height: [20, 30, 40][i % 3],
+                        borderRadius: '50%',
+                        background: `rgba(255,255,255,${0.05 + i * 0.02})`,
+                        top: `${Math.random() * 100}%`,
+                        left: `${Math.random() * 100}%`,
+                        animation: `float ${5 + i * 2}s ease-in-out infinite`,
+                        '@keyframes float': {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
                     }}
-                >
-                    {/* الشعار/العنوان */}
-                    <Box sx={{ textAlign: 'center', mb: 2 }}>
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                fontWeight: 700,
-                                color: colors.primary,
-                                mb: 1
-                            }}
-                        >
-                            Welcome back to PixelsDB
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                color: colors.textSecondary,
-                                maxWidth: '80%',
-                                margin: '0 auto'
-                            }}
-                        >
-                            Sign in to access your account and continue your creative journey
-                        </Typography>
-                    </Box>
+                />
+            ))}
 
-                    {/* زر تسجيل الدخول بالإيميل */}
-                    <Button
-                        onClick={() => {
-                            loginWithRedirect({
-                                appState: { returnTo: "/chat" }
-                            })
-                        }}
-                        fullWidth
-                        variant="contained"
-                        size="large"
-                        startIcon={<EmailIcon />}
+            <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+                <Grow in={true} timeout={1000}>
+                    <Paper
+                        elevation={24}
                         sx={{
-                            py: 1.5,
-                            background: `linear-gradient(90deg, ${colors.primary}, ${colors.primaryLight})`,
-                            borderRadius: 2,
-                            fontWeight: 600,
-                            fontSize: '1rem',
-                            textTransform: 'none',
-                            boxShadow: `0 4px 15px ${colors.primaryLight}40`,
+                            display: 'flex',
+                            flexDirection: { xs: 'column', md: 'row' },
+                            borderRadius: 4,
+                            overflow: 'hidden',
+                            backdropFilter: 'blur(10px)',
+                            background: 'rgba(255, 255, 255, 0.95)',
+                            transition: 'transform 0.3s ease-in-out',
                             '&:hover': {
-                                background: `linear-gradient(90deg, ${colors.primaryDark}, ${colors.primary})`,
-                                boxShadow: `0 6px 20px ${colors.primaryLight}60`,
-                                transform: 'translateY(-2px)'
+                                transform: 'scale(1.01)',
                             },
-                            transition: 'all 0.3s ease'
                         }}
                     >
-                        Login with Email
-                    </Button>
-
-                    {/* فاصل "أو" */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', my: 1 }}>
-                        <Divider sx={{ flex: 1, borderColor: colors.lightGray }} />
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                px: 2,
-                                color: colors.textSecondary,
-                                fontWeight: 500
-                            }}
-                        >
-                            Or continue with
-                        </Typography>
-                        <Divider sx={{ flex: 1, borderColor: colors.lightGray }} />
-                    </Box>
-
-                    {/* بديل: أزرار وسائل التواصل الاجتماعي باستخدام react-social-icons */}
-                    <Box
-                        sx={{
-                            display: 'grid',
-                            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                            gap: 2,
-                            width: '100%',
-                            mt: 2
-                        }}
-                    >
-                        {socialButtons.map((social) => (
-                            <Button
-                                key={social.name}
-                                onClick={() => {
-                                    loginWithRedirect({
-                                        appState: { returnTo: '/chat' },
-                                        authorizationParams: {
-                                            connection: social.network
-                                        }
-                                    })
-                                }}
-                                variant="outlined"
-                                size="large"
-                                fullWidth
+                        {/* Left Side - Decorative Panel */}
+                        {!isTablet && (
+                            <Box
                                 sx={{
-                                    py: 1.5,
-                                    borderRadius: 2,
-                                    borderColor: colors.lightGray,
-                                    fontWeight: 600,
-                                    textTransform: 'none',
-                                    color: colors.textPrimary,
+                                    flex: '1 1 50%',
+                                    background: 'linear-gradient(145deg, #569CF9 0%, #094BB0 100%)',
                                     display: 'flex',
+                                    flexDirection: 'column',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    gap: .2,
-                                    '&:hover': {
-                                        borderColor: social.color,
-                                        backgroundColor: `${social.color}08`,
-                                        transform: 'translateY(-2px)',
-                                        boxShadow: `0 4px 12px ${social.color}20`
-                                    },
-                                    transition: 'all 0.3s ease'
+                                    p: 6,
+                                    position: 'relative',
+                                    overflow: 'hidden',
                                 }}
                             >
-                                {/* استخدام react-social-icons بشكل صحيح */}
-                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <SocialIcon
-                                        network={social.network}
-                                        style={{
-                                            height: 24,
-                                            width: 24,
-                                            marginRight: isMobile ? 0 : 8
+                                {/* Animated background shapes */}
+                                {[...Array(3)].map((_, i) => (
+                                    <Box
+                                        key={i}
+                                        sx={{
+                                            position: 'absolute',
+                                            width: ['120%', '140%', '160%'][i],
+                                            height: ['120%', '140%', '160%'][i],
+                                            background: `radial-gradient(circle, rgba(255,255,255,${0.05 - i * 0.02}) 0%, transparent 70%)`,
+                                            animation: `pulse ${8 + i * 2}s ease-in-out infinite`,
+                                            '@keyframes pulse': {
+                                                '0%, 100%': { transform: 'scale(1)' },
+                                                '50%': { transform: 'scale(1.1)' },
+                                            },
                                         }}
-                                        bgColor={social.color}
                                     />
+                                ))}
+
+                                <Zoom in={true} timeout={1500}>
+                                    <Box sx={{ textAlign: 'center', position: 'relative', zIndex: 2 }}>
+                                        <Typography
+                                            variant="h3"
+                                            sx={{
+                                                fontWeight: 700,
+                                                color: 'white',
+                                                mb: 2,
+                                                textShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                                                fontSize: { md: '2.5rem', lg: '3rem' },
+                                            }}
+                                        >
+                                            Welcome Back!
+                                        </Typography>
+
+                                        <Typography
+                                            variant="h6"
+                                            sx={{
+                                                color: 'rgba(255,255,255,0.9)',
+                                                mb: 4,
+                                                lineHeight: 1.6,
+                                                fontWeight: 400,
+                                            }}
+                                        >
+                                            Log in to continue working on your queries and manage your data.
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                mb: 4,
+                                                gap: 2,
+                                            }}
+                                        >
+                                            {[PostAddIcon, CloudDoneIcon, AutoGraphIcon].map((Icon, index) => (
+                                                <Avatar
+                                                    key={index}
+                                                    sx={{
+                                                        bgcolor: 'rgba(255,255,255,0.2)',
+                                                        width: 64,
+                                                        height: 64,
+                                                        animation: `bounce ${2 + index * 0.3}s ease-in-out infinite`,
+                                                        '@keyframes bounce': {
+                                                            '0%, 100%': { transform: 'translateY(0)' },
+                                                            '50%': { transform: 'translateY(-10px)' },
+                                                        },
+                                                    }}
+                                                >
+                                                    <Icon sx={{ fontSize: 32, color: 'white' }} />
+                                                </Avatar>
+                                            ))}
+                                        </Box>
+                                    </Box>
+                                </Zoom>
+                            </Box>
+                        )}
+                        {/* Right Side - Signup Form */}
+                        <Box
+                            sx={{
+                                flex: '1 1 50%',
+                                p: { xs: 3, sm: 4, md: 6 },
+                                display: 'flex',
+                                flexDirection: 'column',
+                            }}
+                        >
+                            <Zoom in={true} timeout={1000}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                                    <Avatar
+                                        sx={{
+                                            bgcolor: 'primary.main',
+                                            width: 48,
+                                            height: 48,
+                                            mr: 2,
+                                            boxShadow: '0 4px 14px 0 rgba(9, 75, 176, 0.4)',
+                                        }}
+                                    >
+                                        <LockOutlinedIcon />
+                                    </Avatar>
+                                    <Box>
+                                        <Typography
+                                            variant="h4"
+                                            component="h1"
+                                            sx={{
+                                                fontWeight: 700,
+                                                background: 'linear-gradient(145deg, #569CF9, #094BB0)',
+                                                backgroundClip: 'text',
+                                                WebkitBackgroundClip: 'text',
+                                                color: 'transparent',
+                                                mb: 0.5,
+                                            }}
+                                        >
+                                            Login
+                                        </Typography>
+                                    </Box>
                                 </Box>
-                                {!isMobile && social.name}
-                            </Button>
-                        ))}
-                    </Box>
+                            </Zoom>
 
-                    {/* رسالة للهواتف المحمولة */}
-                    {isMobile && (
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                color: colors.textSecondary,
-                                textAlign: 'center',
-                                mt: -1
-                            }}
-                        >
-                            Tap to sign in with social media
-                        </Typography>
-                    )}
+                            <Fade in={true} timeout={1500}>
+                                <Box sx={{ flex: 1 }}>
+                                    <LoginForm />
+                                </Box>
+                            </Fade>
 
-                    {/* رابط التسجيل */}
-                    <Box sx={{ textAlign: 'center', mt: 3 }}>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                color: colors.textSecondary,
-                                display: 'inline'
-                            }}
-                        >
-                            Don't have an account?{' '}
-                        </Typography>
-                        <Link
-                            to="/signup"
-                            style={{
-                                textDecoration: 'none',
-                                fontWeight: 600,
-                                color: colors.primary,
-                                borderBottom: `2px solid ${colors.primaryLight}`,
-                                paddingBottom: 2
-                            }}
-                        >
-                            Register here
-                        </Link>
-                    </Box>
+                            <Box sx={{ mt: 4 }}>
+                                <Divider sx={{ mb: 3 }}>
+                                </Divider>
 
-                    {/* تفاصيل إضافية */}
-                    <Typography
-                        variant="caption"
-                        sx={{
-                            color: colors.textSecondary,
-                            textAlign: 'center',
-                            maxWidth: '80%',
-                            mt: 2
-                        }}
-                    >
-                        By signing in, you agree to our Terms of Service and Privacy Policy
-                    </Typography>
-                </Paper>
+                                <Box sx={{ mt: 4, textAlign: 'center' }}>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Don't have an account?{' '}
+                                        <Link
+                                            to="/signup"
+                                            style={{
+                                                textDecoration: 'none',
+                                                fontWeight: 600,
+                                                color: theme.palette.primary.main,
+                                                transition: 'color 0.2s',
+                                            }}
+                                            onMouseEnter={(e) => e.target.style.color = theme.palette.secondary.main}
+                                            onMouseLeave={(e) => e.target.style.color = theme.palette.primary.main}
+                                        >
+                                            Sign up
+                                        </Link>
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
 
-                {/* <Typography
-                    variant="caption"
-                    sx={{
-                        display: 'block',
-                        textAlign: 'center',
-                        color: colors.white,
-                        mt: 3,
-                        opacity: 0.8
-                    }}
-                >
-                    © {new Date().getFullYear()} PixelsDB. All rights reserved.
-                </Typography> */}
+
+                    </Paper>
+                </Grow>
             </Container>
         </Box>
-    )
+    );
 }

@@ -5,10 +5,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages & Components
 import WelcomePage from "./pages/WelcomePage.jsx";
-// import SignupPage from "./pages//SignupPage";
-// import LoginPage from "./pages/LoginPage.jsx";
-import LoginForm from "./components/Forms/LoginForm.jsx";
-import SignpuForm from "./components/Forms/SignupForm.jsx";
+import SignupPage from "./pages/SignupPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+// import LoginForm from "./components/Forms/LoginForm.jsx";
+// import SignpuForm from "./components/Forms/SignupForm.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx"
 import ChatPage from "./pages/ChatPage.jsx";
@@ -49,8 +49,8 @@ function App() {
                 <MainLayout><ContactUs /></MainLayout>
               } />
               <Route path="/how-it-works" element={<MainLayout><HowItWorks /></MainLayout>} />
-              <Route path="/login" element={<LoginForm />} />
-              <Route path="/signup" element={<SignpuForm />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={< SignupPage />} />
               <Route path="/chat" element={<ProtectedRoute ><ChatPage /> </ProtectedRoute >} />
               <Route path="/profile" element={<ProtectedRoute ><ProfilePage /> </ProtectedRoute >} />
               <Route path="/chat/addDatabase" element={<ProtectedRoute><AddDatabasePage /></ProtectedRoute>} />

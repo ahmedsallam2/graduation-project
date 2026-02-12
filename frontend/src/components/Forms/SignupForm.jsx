@@ -18,7 +18,7 @@ export default function SignupForm() {
   function onSubmit(data) {
     const { confPassword, ...cleanData } = data
     signup(cleanData)
-    console.log("Form Data:", data)
+    console.log("Form Data(signup):", data)
     console.log("confPassword :", confPassword)
     navigate("/chat")
   }
@@ -27,6 +27,25 @@ export default function SignupForm() {
   function onError(errors) {
     console.log("Validation Errors:", errors)
     alert("Please fix the errors in the form.")
+  }
+
+  const styleField = {
+    flex: 1,
+    "& .MuiOutlinedInput-root": {
+      borderRadius: 2,
+      fontSize: "0.95rem",
+      "& textarea": {
+        resize: "vertical",
+      },
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "primary.main",
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "primary.main",
+        borderWidth: "2px",
+      },
+    },
+
   }
 
   return (
@@ -40,6 +59,7 @@ export default function SignupForm() {
         helperText={errors.username?.message}
         fullWidth
         margin="normal"
+        sx={styleField}
       />
 
       {/* Email */}
@@ -58,6 +78,7 @@ export default function SignupForm() {
         helperText={errors.email?.message}
         fullWidth
         margin="normal"
+        sx={styleField}
       />
 
       {/* Password */}
@@ -76,6 +97,7 @@ export default function SignupForm() {
         helperText={errors.password?.message}
         fullWidth
         margin="normal"
+        sx={styleField}
       />
 
       {/* Confirm Password */}
@@ -94,9 +116,10 @@ export default function SignupForm() {
         helperText={errors.confPassword?.message}
         fullWidth
         margin="normal"
+        sx={styleField}
       />
 
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, py: 1.5, fontSize: '1rem', backgroundColor: '#094BB0', '&:hover': { backgroundColor: '#083a8a' } }}>
+      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, py: 1.5, fontSize: '1.2em', backgroundColor: '#094BB0', '&:hover': { backgroundColor: '#083a8a' } }}>
         Sign Up
       </Button>
     </form>
